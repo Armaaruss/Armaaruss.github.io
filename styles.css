@@ -41,7 +41,7 @@ progress {
   display: block;
   width: 50%;
   height: 10px;
-   top: 70px;
+    top: 60px;
   margin: 0.5em 0;
   background: rgba(255, 255, 255, 0.3);
   position: relative;
@@ -58,8 +58,9 @@ progress:before {
   right: 0;
 }
 
+
 progress::-webkit-progress-value {
-  background: rgb(41, 151, 208);
+  background: rgb(81, 181, 78);
   -webkit-transition-property: width;
   -webkit-transition: 0.4s linear;
   -moz-transition: 0.4s linear;
@@ -167,8 +168,8 @@ font-style: bold;
   height: 20px;
   cursor: pointer;
   text-align: center;
-  background-color: #000;
-  display: none;
+  background-color: #fff;
+  
 }
 .dg.main .close-button:hover {
   background-color: #111;
@@ -449,7 +450,8 @@ textarea:focus, input:focus{outline: none; }
 
 body {
 
-  background-color: #000000;
+  background-color: #06402B;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/5/56/Cadpat001.jpg"); 
 }
 
 
