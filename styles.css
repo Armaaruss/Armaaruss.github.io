@@ -168,8 +168,8 @@ font-style: bold;
   height: 20px;
   cursor: pointer;
   text-align: center;
-  background-color: #fff;
-  
+  background-color: #000;
+  display:none;
 }
 .dg.main .close-button:hover {
   background-color: #111;
