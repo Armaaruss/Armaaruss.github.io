@@ -60,7 +60,7 @@ progress:before {
 
 
 progress::-webkit-progress-value {
-  background: rgb(81, 181, 78);
+ background: rgb(41, 151, 208);
   -webkit-transition-property: width;
   -webkit-transition: 0.4s linear;
   -moz-transition: 0.4s linear;
