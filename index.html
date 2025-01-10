@@ -1,0 +1,2807 @@
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8GJC9LR03S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8GJC9LR03S');
+</script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Drone Detection with Acoustic activity recognition</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/speech-commands@0.4.0/dist/speech-commands.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"></script>
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  
+  
+ 
+ 
+  <div class="classifyOnClick1"  id="liveView" ></div>
+   
+       
+ 
+       
+   
+    <style>
+ 
+
+
+    </style>
+
+
+<script language="javascript">
+        var realConsoleLog = console.log;
+        console.log = function () {
+            var message = [].join.call(arguments, " ");
+            $(".scanner1").text(message);
+            realConsoleLog.apply(console, arguments);
+        };
+       
+    </script>
+
+
+    <script>
+
+
+async function connectToDevice() { 
+    navigator.bluetooth.getAvailability().then(available => {
+        if (available)
+            console.log("Scanning for drones...");
+        else
+            console.log("Bluetooth is not supported");
+      });
+
+
+if (navigator.bluetooth) {
+    console.log('Requesting Bluetooth device...');
+
+    //
+
+    navigator.bluetooth.requestDevice({
+      filters: [ { namePrefix: 'DJI' },
+{ namePrefix: 'Mavic' },
+ { namePrefix: 'Evo' },                                                                                                                
+{ namePrefix: 'Potsenic' },
+                { namePrefix: 'Contixo' },
+                { namePrefix: 'F24' },
+                { namePrefix: 'F21' },
+                { namePrefix: 'F31' },
+                { namePrefix: 'F19' },
+                { namePrefix: 'Syma' },
+                { namePrefix: 'Parrot' },
+                { namePrefix: 'ANAFI' },
+                { namePrefix: 'Yuneec' },
+                { namePrefix: 'Attop' },
+                { namePrefix: 'JJRC' },
+                { namePrefix: 'Snaptain' },
+                { namePrefix: 'Flywoo' },
+                { namePrefix: 'GOKU' },
+                { namePrefix: 'Aquila16' },
+                { namePrefix: 'Pavo' },
+                { namePrefix: 'Pavo20' },
+                { namePrefix: 'Meteor75' },
+                { namePrefix: 'TWIG' },
+                { namePrefix: 'Cetus' },
+                { namePrefix: 'Newbeedrone' },
+                { namePrefix: 'SIMREX' },
+                { namePrefix: 'Vivitar' },
+                { namePrefix: 'UDIRC' },
+                { namePrefix: 'FREEFLY' },
+                { namePrefix: 'PowerVision' },
+                { namePrefix: 'LE-IDEA' },
+                { namePrefix: 'DEERC' },
+                { namePrefix: 'Beta65S' },
+                { namePrefix: 'SYMA' },
+                { namePrefix: 'Hubsan' },
+                { namePrefix: 'SJRC' },
+   { namePrefix: 'GEPRC' },    
+                { namePrefix: 'CineLog' },
+  { namePrefix: 'Holy Stone' }, 
+                { namePrefix: 'Air' }, 
+                { namePrefix: 'HS360' }, 
+                { namePrefix: 'HS600D' }, 
+                { namePrefix: 'HS900' }, 
+                { namePrefix: 'HS720' }, 
+                { namePrefix: 'HS710' }, 
+                { namePrefix: 'HS110g' }, 
+               { namePrefix: 'HS440' },
+               { namePrefix: 'HS190' },
+               { namePrefix: 'HS600' },
+              { namePrefix: 'F7' },
+              { namePrefix: 'Matrice' },
+              { namePrefix: 'Agras' },
+              { namePrefix: 'Avata' },
+{ namePrefix: 'Bwine' }, 
+  { namePrefix: 'Ruko' },                                                                                                                   { namePrefix: 'Spektrum' },  
+  { namePrefix: 'Phantom' },                                                                                                               { namePrefix: 'Skydio' },    
+  { namePrefix: 'Fimi' },                                                                                                                   { namePrefix: 'Autel' }, 
+ { namePrefix: 'E-flite' }, 
+  { namePrefix: 'Wingtra' },
+{ namePrefix: 'Opterra' },                                                                                                                     
+   { namePrefix: 'Microdrones' },                                                                                                             { namePrefix: 'AgEagle' },       
+    { namePrefix: 'eBee' },  
+       { namePrefix: 'Freefly' },                                                                                                              { namePrefix: 'Alta' },    
+     { namePrefix: 'Astro' },                                                                                                                   { namePrefix: 'Falcon' }, 
+    { namePrefix: 'ANAFI' },                                                                                                                   
+    { namePrefix: 'X10' },                                                                                                                    { namePrefix: 'SwellPro' }, 
+       { namePrefix: 'Fisherman' }, 
+        { namePrefix: 'Specta' },                                                                                                              { namePrefix: 'REDRIE' }, 
+{ namePrefix: 'FPV' }, 
+   { namePrefix: 'SplashDrone4' },                                                                                                              { namePrefix: 'Spry+' },        
+    { namePrefix: 'One Gen' },       
+     { namePrefix: 'XAG' },   
+                                                                                                                     
+ { namePrefix: 'P100' }, 
+                                                                                                                     
+ { namePrefix: 'P40' }, 
+
+   { namePrefix: 'V40' },                                                                                                                     { namePrefix: 'P4' }, 
+     { namePrefix: 'Spreading Wings' },                                                                                                        { namePrefix: 'Interstate' },
+ { namePrefix: 'MQ-1' },
+{ namePrefix: 'RQ-2' },
+{ namePrefix: 'MQ-5' },
+
+{ namePrefix: 'RQ-14' },
+
+{ namePrefix: 'RQ-16' },
+{ namePrefix: 'FQM-151' },
+{ namePrefix: 'CQ-24A' },
+
+{ namePrefix: 'Desert Hawk' },
+
+{ namePrefix: 'Maveric' },
+{ namePrefix: 'MQ-1C' },
+{ namePrefix: 'RQ-4' },
+{ namePrefix: 'MQ-4C' },
+{ namePrefix: 'RQ-7' },
+{ namePrefix: 'MQ-8B' },
+{ namePrefix: 'MQ-9' },
+
+{ namePrefix: 'CQ-10' },
+{ namePrefix: 'RQ-11' },
+{ namePrefix: 'RQ-12' },
+{ namePrefix: 'MQ-19' },
+{ namePrefix: 'RQ-20' },
+
+{ namePrefix: 'RQ-21' },
+{ namePrefix: 'RQ-170' },
+{ namePrefix: 'RQ-180' },
+{ namePrefix: 'Altius-600' },
+{ namePrefix: 'Black Hornet Nano' },
+{ namePrefix: 'Coyote' },
+{ namePrefix: 'Jump 20' },
+{ namePrefix: 'Northrop' },
+{ namePrefix: 'Phoenix' },
+{ namePrefix: 'Snipe' },
+{ namePrefix: 'Switchblade' },
+{ namePrefix: 'Stalker' },
+{ namePrefix: 'ScanEagle' },
+{ namePrefix: 'TRV-150C' },
+{ namePrefix: 'MQ-25' },
+{ namePrefix: 'Horus' },
+],      
+optionalServices: ['battery_service']   
+}).then(device => {
+      console.log('> Name:      ' + device.name + '> Id:        ' + device.id );
+      
+   
+    })
+    .catch(error => {
+      console.log( 'Scanner stopped');
+    });
+  }
+  else {
+    console.log('Scanner stopped')
+  }
+}
+
+
+
+    
+    
+
+ </script>
+
+    
+
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css?family=Inconsolata:700" rel="stylesheet">
+
+<!-- Wrapper -->
+     
+
+   
+  
+      <body>
+        
+    <button style="position:relative;z-index:400;left:0px;top:0px;font-size:5px" onclick="myFunctionandroid()">Click here to install the Armaaruss Drone Detection on Android Device</button>    
+
+<script>
+function myFunctionandroid() {
+  window.open("https://median.co/share/rkzzbe");
+}
+</script>
+
+
+         <p id="dronedemo"></p>
+<div class="wrapper">
+   
+    <!-- Title -->
+<div class="title">
+      <h1><span class="letter6">_</span></h1>
+    </div>
+
+<!-- Vision -->
+<div class="vision">
+
+<!-- Stage -->
+<div class="stage"></div><!-- Overlay -->
+<div class="overlay">
+  
+  <section class="intro">
+      <div style="margin-left:25%; " class="content">
+        <h1 id="headerText"></h1>
+       
+        <p  id="deletethislater">
+        
+        Armaaruss Detection (with Acoustic Sensors for advanced drone detection) - Recommended for world leaders <br><br>Wait for the model to load before clicking the "Enable aerial object detection" button to activate the webcam. The program will beep when it detects an aerial object. The longer the aerial object is near you, the longer the beep. For soldiers, this could mean that a drone is targeting them. Ideally, soldiers would use the app on their cell phones and attach the device to the top of a vehicle or to their body while sleeping in the trenches. Remember that the cell phone's wireless connection should remain "off" during combat. In a civilian environment, a wireless cell phone can be placed on rooftops. With remote access to the device, a user can monitor aerial scenes and detect drones remotely.
+    <br><br>
+    Next to the "Enable aerial object detection" button is the "Activate acoustic sensors(drone detection)." This feature uses acoustic detection to check for drones in the area. This technology is currently used by the Ukrainian and US military, but is now available for common use. This technology can help world leaders evade drone attacks and assassination attempts 
+<br><br>
+Click "Intruder Detection" to activate the Intruder Detection system. The intruder detection system will beep when an intruder is detected. The app will also issue a voice notification of “Intruder Detected” once an intruder is detected. This app allows you to set up phones in different locations that can detect when an intruder is in the area. It can be used in cleanup and counter-insurgency operations. It is also useful for civilians against bandits and other criminals in urban environments. The app can prevent ambush attacks. The phone can be placed in cracks in walls and other inconspicuous places. With remote access to the phone, the user could remotely monitor the event and see when intruders gained unauthorized access.
+       <br><br>
+          The app also has primary and secondary detection for both aerial objects and intruders. Primary detection is the main standard, while "Secondary detection" uses color calibration to enhance detection.
+        </p>
+       
+      </div>
+    </section>
+
+    <canvas id="canvas"></canvas>
+
+    <section class="classes"></section>
+
+    <section class="prediction"></section>
+
+    <script id="spec1" src="index.js" type="module"></script>
+    <script id="spec" src="new-spectrogram.js" type="module"></script>
+
+    <div class="dg ac">
+      <div class="dg main a" style="width: 245px;">
+        <div
+          style="width: 6px; margin-left: -3px; height: 0px; cursor: ew-resize; position: absolute;"
+        ></div>
+        <ul style="height: auto;"></ul>
+        <div id="closeControls" class="close-button" style="width: 245px;display:none">
+          
+        </div>
+      </div>
+    </div>
+     
+    
+
+<!-- Positionals -->
+<div id="leftbottom" class="positionals" style="position:fixed" >
+
+
+
+</div>
+
+<!-- Model -->
+
+         
+ 
+ 
+</div>
+       
+   
+</div>
+<p  id="intru1"></p>
+<p id="intru2"></p>
+<p id="intru"></p>
+    <p class="scanner1"  id="demodrone"></p>
+<!-- Left -->
+<div id="lefty" class="left" style="position:fixed;left:15px; top:150px" style="position:fixed"   >
+
+</div>
+
+<!-- Center -->
+<div id = "centery" class="center">
+<p>
+
+</p>
+</div>
+
+<!-- Right -->
+<div id="righty" class="right" style="position:fixed;top:150px; right: 15px;" >
+
+
+
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+     
+      <div class="classifyOnClick" style="z-index:200">
+        <canvas type="button" id="myCanvas"  style="filter:opacity(0%)"  value="click"  />
+      </div>
+<div class="classifyOnClick1" id="liveView"  ></div>
+   
+       
+
+ 
+       <div id="webcam1"> <video class="player" id="webcam" autoplay ></video></div>
+
+
+     
+ <h2></h2>
+     
+     
+      <div>
+       
+       
+      </div>
+    </section>
+   
+    <footer class="note">
+     
+    </footer>
+   <div class="classifyOnClick2"  >
+             
+             
+             
+         </div>
+         
+       
+           </div>
+
+   <div class="classifyonClick75"style="position:absolute;z-index:200;left:0px;bottom:0px;font-size:20px" >
+
+ <input style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" type="button" id="demo4" onClick="hideMenu()" value="Hide Menu"></input>
+
+ <input style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" type="button" id="demo5" onClick="showMenu()" value="Show Menu" ></input>
+ 
+ 
+  <script>
+  function hideMenu(){
+   document.getElementById("flips").style.visibility = "hidden";
+  document.getElementById("stopsec").style.visibility = "hidden";
+   document.getElementById("webcamButtonigc").style.visibility = "hidden";
+   document.getElementById("input").style.visibility = "hidden";
+   document.getElementById("webcamButtongrayscale").style.visibility = "hidden";
+  document.getElementById("draft").style.visibility = "hidden";
+  document.getElementById("webcamButtonpri").style.visibility = "hidden";
+  document.getElementById("webcamButtonstartpri").style.visibility = "hidden";
+ document.getElementById("start").style.visibility = "hidden";
+      document.getElementById("stopmic1").style.visibility = "hidden";
+   document.getElementById("webcamButton4").style.visibility = "hidden";
+ document.getElementById("webcamButton12").style.visibility = "hidden";
+  document.getElementById("webcamButton10").style.visibility = "hidden";
+      document.getElementById("webcamButtoniandg").style.visibility = "hidden";
+        document.getElementById("webcamButtonreset").style.visibility = "hidden";
+         document.getElementById("webcamButtoninvert").style.visibility = "hidden";
+  document.getElementById("webcamButton9").style.visibility = "hidden";
+             document.getElementById("webcamButton16").style.visibility = "hidden";
+            document.getElementById("webcamButtonblack").style.visibility = "hidden";
+ document.getElementById("aerial").style.visibility = "hidden";
+  document.getElementById("intruddo").style.visibility = "hidden";
+ document.getElementById("webcamzoom").style.visibility = "hidden";
+      document.getElementById("webcamzoomout").style.visibility = "hidden";
+      
+
+ 
+             
+               
+     
+         
+           
+ 
+                 
+                 
+                 
+               
+ 
+  }
+ 
+  function showMenu(){
+  document.getElementById("flips").style.visibility = "visible";
+  document.getElementById("stopsec").style.visibility = "visible";
+                   document.getElementById("aerial").style.visibility = "visible";
+                    document.getElementById("intruddo").style.visibility = "visible";
+                    document.getElementById("webcamButton9").style.visibility = "visible";
+                    document.getElementById("webcamButton16").style.visibility = "visible";
+           document.getElementById("start").style.visibility = "visible";
+      document.getElementById("stopmic1").style.visibility = "visible"; 
+  document.getElementById("webcamButtonblack").style.visibility = "visible";
+     document.getElementById("webcamButton10").style.visibility = "visible";
+    document.getElementById("webcamButton4").style.visibility = "visible";
+ document.getElementById("webcamButton12").style.visibility = "visible";
+       document.getElementById("webcamButtoniandg").style.visibility = "visible";
+        document.getElementById("webcamButtonreset").style.visibility = "visible";
+         document.getElementById("webcamButtoninvert").style.visibility = "visible";
+          document.getElementById("webcamButtongrayscale").style.visibility = "visible";        
+             document.getElementById("draft").style.visibility = "visible";
+             document.getElementById("input").style.visibility = "visible";
+             document.getElementById("webcamButtonpri").style.visibility = "visible";
+  document.getElementById("webcamButtonstartpri").style.visibility = "visible";
+                 document.getElementById("webcamButtonigc").style.visibility = "visible";
+                 document.getElementById("webcamButton").style.visibility = "visible";
+       document.getElementById("webcamzoom").style.visibility = "visible";
+      document.getElementById("webcamzoomout").style.visibility = "visible";
+     
+                 
+  }
+ 
+ 
+  function brightnessOff(){
+
+
+document.getElementById("webcam1").style.filter = 'brightness(0)';
+
+  ctx.filter = 'brightness(0)';
+  ctx2.filter = 'brightness(0)';
+  ctx3.filter = 'brightness(0)';
+}
+
+function invert(){
+
+
+
+document.getElementById("webcam1").style.filter = 'invert(1)';
+
+ 
+  ctx.filter = 'invert(1)';
+  ctx2.filter = 'invert(1)';
+  ctx3.filter = 'invert(1)';
+}
+
+function invertandgrayscale(){
+
+
+ 
+
+document.getElementById("webcam1").style.filter = ' invert(1) grayscale(1)';
+
+  ctx.filter = ' invert(1) grayscale(1)';
+  ctx2.filter = ' invert(1) grayscale(1)';
+  ctx3.filter = ' invert(1) grayscale(1)';
+ 
+ 
+
+}
+      let zoomLevel = 1;
+
+      function webcamzoom(){
+
+         
+
+  document.getElementById("webcam1").style.transform = "scale(2)";
+          ctx.transform = ' scale(2)';
+  ctx2.transform = ' scale(2)';
+  ctx3.transform = ' scale(2)';
+          
+
+          }
+
+      function webcamzoomout(){
+
+          
+
+  document.getElementById("webcam1").style.transform = "scale(1)";
+           ctx.transform = ' scale(1)';
+  ctx2.transform = ' scale(1)';
+  ctx3.transform = ' scale(1)';
+          
+
+          }
+
+function invertandgrayscaleandcontrast(){
+
+
+ 
+ 
+document.getElementById("webcam1").style.filter = ' invert(1) grayscale(1) contrast(2)';
+
+ 
+  ctx.filter = ' invert(1) grayscale(1) contrast(2)';
+  ctx2.filter = ' invert(1) grayscale(1) contrast(2)';
+   ctx3.filter = ' invert(1) grayscale(1) contrast(2)';
+}
+
+
+function grayscale(){
+
+
+
+ 
+ 
+ document.getElementById("webcam1").style.filter = ' grayscale(1)';
+
+
+ 
+  ctx.filter = ' grayscale(1)';
+  ctx2.filter = ' grayscale(1)';
+  ctx3.filter = ' grayscale(1)';
+}
+
+function Reset(){
+
+
+ 
+
+
+document.getElementById("webcam1").style.filter = ' none';
+
+ctx.filter = 'none';
+ctx2.filter = 'none';
+ctx3.filter = 'none';
+
+}
+
+function enableSecdet(){
+
+document.getElementById("myCanvas").style.pointerEvents = "visible";
+document.getElementById("demo").innerHTML = "Tap the Screen to activate Secondary Detection";
+
+}
+
+ 
+  </script>
+
+       <script>
+
+           var beep = (function () {
+
+var ctxClass = window.audioContext ||window.AudioContext || window.AudioContext || window.webkitAudioContext
+
+var ctxs = new ctxClass();
+
+return function (duration, type, finishedCallback) {
+
+
+
+duration = +duration;
+
+type = (type % 5) || 0;
+
+
+if (typeof finishedCallback != "function") {
+
+finishedCallback = function () {};
+
+}
+
+
+var osc = ctxs.createOscillator();
+
+
+osc.type = type;
+
+
+osc.connect(ctxs.destination);
+
+if (osc.noteOn) osc.noteOn(0);
+
+if (osc.start) osc.start();
+
+
+setTimeout(function () {
+
+if (osc.noteOff) osc.noteOff(0);
+
+if (osc.stop) osc.stop();
+
+finishedCallback();
+
+}, duration);
+
+
+};
+
+})();
+
+
+           </script>
+
+       
+ 
+
+<div id="draft" style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" class="btn btn-success fileinput-button" ><span>Test Drone detection (upload video file)</span><input onclick="this.value = null" type="file" id="drafty" onchange="previewFiles(this);" accept="video/m4v" />
+    
+</div>
+ 
+   
+ 
+<button id="webcamButton12" style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" class="stoppri-front" >Delete video</button>
+
+<button id="webcamButtonpri" style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" class="stopprimary-front" >Stop primary detection</button>
+
+<button id="webcamButtonstartpri" style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" class="startprimary-front" >Start primary detection</button>
+ 
+<script>
+
+
+   var srat;
+ var nosrat;
+ const input4 = document.getElementById('drafty');
+const videotest = document.getElementById('webcam');
+    
+const videoSource = document.createElement('source');
+const button1 = document.getElementById('webcamButton12');
+var c = document.getElementById("myCanvas");
+
+var ctx2 = c.getContext("2d");
+      
+
+c.width = videotest.clientWidth;
+c.height = videotest.clientheight;
+
+var srat = setInterval(function (){
+
+ctx2.drawImage(videotest, 0, 0, videotest.clientWidth, videotest.clientHeight)
+}, 0);
+
+input4.addEventListener('change', function() {
+  const files = this.files || [];
+
+  if (!files.length) return;
+ 
+  const reader = new FileReader();
+
+  reader.onload = function (e) {
+ 
+ document.getElementById("demo").innerHTML= "Primary detection activated";
+  document.getElementById("intru1").innerHTML = " ";
+
+
+  document.getElementById("intru2").innerHTML = " "; document.getElementById("deletethislater").innerHTML= " ";
+   document.getElementById("divy5").style.top = "10000000px";
+  clearInterval(myInterval);
+  clearInterval(myInterval2);
+  video1.srcObject = null;
+  video2.srcObject = null;
+ 
+ 
+    videoSource.setAttribute('src', e.target.result);
+    videotest.appendChild(videoSource);
+   
+   
+    videotest.removeEventListener("loadeddata", intruder);
+    videotest.addEventListener("loadeddata", aerialobject);
+   
+   
+   
+     document.querySelector('.player').addEventListener('ended', function () {
+     
+   videotest.load();
+   stop();
+   videotest.addEventListener("loadeddata", aerialobject);
+   
+
+ 
+})
+
+var stopprimary = document.querySelector('.stopprimary-front');
+
+document.querySelector('.stopprimary-front').addEventListener('click', function () {
+
+document.querySelector('.player').addEventListener('ended', function () {
+     
+   videotest.load();
+   stop();
+   videotest.removeEventListener("loadeddata", aerialobject);
+   videotest.removeEventListener("loadeddata", intruder);
+
+ 
+})
+     
+ document.getElementById("demo").innerHTML= " ";
+   videotest.removeEventListener("loadeddata", aerialobject);
+   videotest.addEventListener("loadeddata", predictWebcam1);
+   videotest.load();
+   videotest.play();
+   stop(); });
+   
+   var startprimary = document.querySelector('.startprimary-front');
+
+document.querySelector('.startprimary-front').addEventListener('click', function () {
+
+document.querySelector('.player').addEventListener('ended', function () {
+     
+   videotest.load();
+   stop();
+   videotest.addEventListener("loadeddata", aerialobject);
+   
+
+ 
+})
+     
+document.getElementById("demo").innerHTML= "Primary detection activated";
+   videotest.addEventListener("loadeddata", aerialobject);
+   
+   videotest.load();
+   videotest.play();
+   stop(); });
+   
+
+var stoppri1 = document.querySelector('.stoppri-front');
+
+document.querySelector('.stoppri-front').addEventListener('click', function () {
+     
+ document.getElementById("demo").innerHTML= "Видалення відео...";
+
+   videotest.removeEventListener("loadeddata", aerialobject);
+   
+   videotest.load();
+   videotest.play();
+   stop();
+   
+  setTimeout(function(){
+ document.getElementById("intru1").innerHTML = " ";
+
+
+  document.getElementById("intru2").innerHTML = " ";
+ airhelpp.loop = false;
+song1air.loop = false;
+  document.getElementById("demo").innerHTML= " ";
+document.getElementById("demo").innerHTML= " ";
+   document.getElementById("myCanvas").style.pointerEvents = "none";
+   clearInterval(myInterval2);
+
+  var nosrat = clearInterval(srat);
+       
+   videotest.load();
+   
+   videotest.srcObject = null;
+   videotest.removeAttribute('src');
+   videotest.removeChild(videoSource);
+ 
+
+e.target.value = "";
+ 
+
+  }, 3000);
+       
+
+ 
+})
+
+
+   
+ 
+     const imageContainers3 = document.getElementsByClassName('classifyOnClick');
+
+// Now let's go through all of these and add a click event listener.
+for (let i = 0; i < imageContainers3.length; i++) {
+  // Add event listener to the child element whichis the img element.
+  imageContainers3[i].children[0].removeEventListener('click', begin1);
+  imageContainers3[i].children[0].removeEventListener('click', begin2);
+ imageContainers3[i].children[0].addEventListener('click', begin2);
+}
+stopsec.onclick = function(){
+ clearInterval(myInterval2);
+ document.getElementById("demo").innerHTML = " ";
+
+ 
+}
+
+
+  };
+ 
+  reader.onprogress = function (e) {
+    console.log('progress: ', Math.round((e.loaded * 100) / e.total));
+  };
+ 
+
+  reader.readAsDataURL(files[0]);
+});
+
+
+ 
+  </script>
+<div id="divy5" class="classifyOnClick" style="position:fixed;z-index:1;left:0px;top:0px;bottom:0px;" >
+<canvas id="myCanvas1" width=1300 height=1300 />
+</div>
+<div id="input" style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" class="btn btn-success fileinput-button">
+<span>Drone detection test (upload image file)</span>
+<input id="inputs" onclick="this.value = null"  type="file" name="file"></input>
+
+</div>
+
+<button class="removeimage" style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" id="webcamButton4" onClick=" delete()">Remove Image</button>
+ 
+ <script>
+ var input6 = document.getElementById('inputs')
+
+
+const c3 = document.getElementById("myCanvas1");
+
+ctx3 = c3.getContext("2d");
+
+
+var intervo1s;
+var intervo1sclear;
+
+
+input6.onchange=function(event) {
+
+document.getElementById("intru1").innerHTML = " ";
+
+
+  document.getElementById("intru2").innerHTML = " ";
+document.getElementById("deletethislater").innerHTML= " ";
+clearInterval(myInterval);
+  clearInterval(myInterval2);
+  video1.srcObject = null;
+  video2.srcObject = null;
+ 
+   
+    var img = new Image()
+    img.onload = function() {
+     
+  document.getElementById("divy5").style.top = "0px";
+  document.getElementById("demo").innerHTML = " ";
+   c3.width = "1300";
+        c3.height = "900";
+   
+       
+       
+       
+
+var intervo1s = setInterval(function(){
+  ctx3.drawImage(img, 0, 0, 1300, 900)}, 0);
+ 
+
+    const imageContainers4 = document.getElementsByClassName('classifyOnClick');  
+ for (let i = 0; i < imageContainers4.length; i++) {
+  // Add event listener to the child element whichis the img element.
+  imageContainers4[i].children[0].removeEventListener('click', begin1);
+  imageContainers4[i].children[0].removeEventListener('click', begin2);
+ imageContainers4[i].children[0].addEventListener('click', begin2);
+}
+
+
+stopsec.onclick = function(){
+
+ clearInterval(myInterval2);
+ document.getElementById("demo").innerHTML = " ";
+ 
+
+ 
+ 
+}      
+
+
+   
+       
+function clearint(){
+clearInterval(intervo1s);
+}
+
+ document.getElementById("webcamButton4").addEventListener('click', clearint);
+//when the button is clicked
+
+
+$('.removeimage').click(function () {
+get2Video(el);
+document.getElementById("intru1").innerHTML = " ";
+
+
+  document.getElementById("intru2").innerHTML = " ";
+  //stop the interval
+  var intervo1sclear = clearInterval(intervo1s);
+ 
+  c3.width = "0";
+        c3.height = "0";
+   
+ ctx3.clear();
+ airhelpp.loop = false;
+song1air.loop = false;
+ 
+
+});
+
+       
+       
+       
+       
+       
+       
+         
+        URL.revokeObjectURL(this.src)
+    }
+    img.src = URL.createObjectURL(this.files[0])
+   
+}
+
+
+
+
+
+function delet(){
+ document.getElementById("demo").innerHTML = " ";
+c3.width = c3.width;
+ctx3.clear();
+var intervo1sclear = clearInterval(intervo1s);
+ airhelpp.loop = false;
+song1air.loop = false;
+document.getElementById("intru1").innerHTML = " ";
+
+
+  document.getElementById("intru2").innerHTML = " ";
+ 
+     
+    }
+ 
+
+
+
+
+ 
+
+
+
+
+
+ 
+ </script>
+       <script>
+ 
+  
+               
+   
+    <!-- Import TensorFlow.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js" type="text/javascript"></script>
+   
+    <!-- Load the coco-ssd model to use to recognize things in images -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+   
+    <!-- Import the page's JavaScript to do some stuff -->
+    <script src="/script.js" defer></script>
+       <p id=demo> </p>
+ 
+ 
+   
+         
+<button id="flips" style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" class="flip-front">Flip Camera</button>
+
+
+<button id="stopsec" style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" class="stopsec-front">Stop secondary detection</button>
+
+
+<button id="aerial" style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" class="aerial-front">Enable aerial object detection</button>
+
+       <button class="acoustics1" style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" id="start">Activate acoustic sensors(drone detection)</button>
+
+        <input id="stopmic1" style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px"  type="button"  value="Disable acoustic sensors" </input>
+       
+
+<button id="intruddo" style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" class="intrudor-front">Enable intruder detection</button>
+
+
+<button style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" id="webcamButton10" onClick="enableSecdet()" >Enable secondary detection</button>
+
+
+
+
+
+
+
+
+<input style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" type="button" onClick="connectToDevice() " id="webcamButton9" value="Scan for drones (Bluetooth)"></input >
+
+      
+
+<input style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" type="button" id="webcamButton16" value= "Display on-screen text" </input>
+
+       <input style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" type="button" id="webcamButtonzoom" onClick="webcamzoom()" value= "Zoom in" </input>
+
+       <input style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" type="button" id="webcamButtonzoom1" onClick="webcamzoomout()" value= "Zoom out" </input>
+
+
+<input style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" type="button" id="webcamButtongrayscale" onClick="grayscale()" value="Enable Grayscale"></input>
+
+<input style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" type="button" id="webcamButtoninvert" onClick="invert()" value="Invert /Night vision"></input>
+
+<input style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" type="button" id="webcamButtonreset" onClick="Reset()" value="Reset Color"></input>
+
+<input style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px;" type="button" id="webcamButtoniandg" onClick="invertandgrayscale()" value="Invert and grayscale"></input>
+
+<input style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" type="button" id="webcamButtonigc" onClick="invertandgrayscaleandcontrast()" value="Invert , Grayscale and contrast"></input>
+
+<input style="position:relative;z-index:200;left:0px;bottom:0px;font-size:5px" type="button" id="webcamButtonblack" onClick="brightnessOff()" value="Black "></input>
+ 
+
+</div>
+    <script>
+    /**
+ * @license
+ * Copyright 2018 Google LLC. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * =============================================================================
+ */
+
+/********************************************************************
+ * Demo created by Jason Mayes 2020.
+ *
+ * Got questions? Reach out to me on social:
+ * Twitter: @jason_mayes
+ * LinkedIn: https://www.linkedin.com/in/creativetech
+ ********************************************************************/
+
+const demosSection = document.getElementById('demos');
+
+var model = undefined;
+
+// Before we can use COCO-SSD class we must wait for it to finish
+// loading. Machine Learning models can be large and take a moment to
+// get everything needed to run.
+cocoSsd.load().then(function (loadedModel) {
+  model = loadedModel;
+  // Show demo section now model is ready to use.
+  demosSection.classList.remove('invisible');
+});
+
+
+/********************************************************************
+// Demo 1: Grab a bunch of images from the page and classify them
+// upon click.
+********************************************************************/
+
+// In this demo, we have put all our clickable images in divs with the
+// CSS class 'classifyOnClick'. Lets get all the elements that have
+// this class.
+const imageContainers = document.getElementsByClassName('classifyOnClick');
+
+// Now let's go through all of these and add a click event listener.
+for (let i = 0; i < imageContainers.length; i++) {
+  // Add event listener to the child element whichis the img element.
+  imageContainers[i].children[0].removeEventListener('click', begin1);
+  imageContainers[i].children[0].removeEventListener('click', begin2);
+}
+
+// When an image is clicked, let's classify it and display results!
+
+
+
+/********************************************************************
+// Demo 2: Continuously grab image from webcam stream and classify it.
+// Note: You must access the demo on https for this to work:
+// https://tensorflow-js-image-classification.glitch.me/
+********************************************************************/
+
+const video = document.getElementById('webcam');
+const liveView = document.getElementById('liveView');
+
+// Check if webcam access is supported.
+function hasGetUserMedia() {
+  return !!(navigator.mediaDevices &&
+    navigator.mediaDevices.getUserMedia);
+}
+
+// Keep a reference of all the child elements we create
+// so we can remove them easilly on each render.
+var children = [];
+
+
+// If webcam supported, add event listener to button for when user
+// wants to activate it.
+
+
+const ce = document.getElementById("myCanvas");
+
+const ctx = ce.getContext("2d");
+
+var img = new Image();
+img.onload = function(){
+   ce.width = video1.clientWidth;
+     ce.height = video1.clientHeight;
+    ctx.filter = 'brightness(1)';
+    
+   ctx.drawImage(img, 0,0);
+   setInterval(function(){
+   ctx.drawImage(video1, 0,0, video1.clientWidth, video1.clientHeight)}, 1);
+      };
+  img.crossOrigin = "Anonymous";      
+  img.src = "https://cdn.glitch.com/74418d0b-3465-49a2-8c71-a721b7734473%2Fcats_flickr_publicdomain.jpg?v=1579294753947";
+
+
+var video1 = document.getElementById("webcam");
+var liveView1 = document.getElementById("liveView");
+
+var el = true;
+var flipFront = document.querySelector(".flip-front");
+var aerial = document.querySelector(".aerial-front");
+var intrudor = document.querySelector(".intrudor-front");
+var stopsec = document.querySelector(".stopsec-front");
+
+function get1Video(el){
+
+  navigator.mediaDevices.getUserMedia({
+    video: {
+
+            facingMode: el?'user':'environment'
+},
+    audio: false
+  }).then(d=>{
+ (el===false)?video1.classList.add("back"):video1.classList.remove("back");
+ 
+ document.getElementById("intru1").innerHTML = " ";
+
+
+  document.getElementById("intru2").innerHTML = " ";
+ document.getElementById("deletethislater").innerHTML= " ";
+ document.getElementById("divy5").style.top = "10000000px";
+clearInterval(myInterval2);
+document.getElementById("demo").innerHTML= "Primary detection activated <br><br>Intruder detection";
+    video1.srcObject = d;
+    video1.play();
+    video1.addEventListener("loadeddata", intruder);
+     video1.removeEventListener("loadeddata", aerialobject);
+ const imageContainers = document.getElementsByClassName('classifyOnClick');
+
+// Now let's go through all of these and add a click event listener.
+for (let i = 0; i < imageContainers.length; i++) {
+  // Add event listener to the child element whichis the img element.
+  imageContainers[i].children[0].addEventListener('click', begin1);
+  imageContainers[i].children[0].removeEventListener('click', begin2);
+ 
+}
+
+ 
+ 
+ 
+ 
+ 
+    })  
+ 
+  .catch(err=>{
+  var msg = 'Either your video cam is missing OR not working properly. Please check.';
+  (err.name==='NotFoundError')?alert('Error name: '+err.name+'\nError msg: '+msg):alert('Error name: '+err.name+'\nError msg: '+err.message);
+  });
+ 
+ var stopprimary = document.querySelector('.stopprimary-front');
+
+document.querySelector('.stopprimary-front').addEventListener('click', function () {
+
+
+ document.getElementById("demo").innerHTML= " ";
+   video1.removeEventListener("loadeddata", aerialobject);
+   video1.removeEventListener("loadeddata", intruder);
+   video1.addEventListener("loadeddata", predictWebcam1);
+   video1.load();
+   video1.play();
+    });
+   
+   var startprimary = document.querySelector('.startprimary-front');
+
+document.querySelector('.startprimary-front').addEventListener('click', function () {
+
+
+document.getElementById("demo").innerHTML= "Primary detection activated <br><br>Intruder detection";
+ video1.removeEventListener("loadeddata", aerialobject);
+ video1.removeEventListener("loadeddata", predictWebcam1);
+   video1.addEventListener("loadeddata", intruder);
+   
+   video1.load();
+   video1.play();
+    });
+   
+ 
+
+   flipFront.onclick = function(){
+el=!el;
+  stop();
+  get1Video(el);
+ 
+ 
+ 
+}
+
+intrudor.onclick = function(){
+
+ 
+  get1Video(el);
+ 
+ 
+ 
+ 
+ 
+}
+
+aerial.onclick = function(){
+
+ 
+  get2Video(el);
+ 
+ 
+ 
+}
+
+stopsec.onclick = function(){
+ clearInterval(myInterval);
+ document.getElementById("demo").innerHTML = " ";
+  get1Video(el);
+
+ 
+ 
+}
+
+
+
+
+
+var stop = () => video1.srcObject && video1.srcObject.getTracks().map(t => t.stop());  
+   
+}
+
+intrudor.onclick = function(){
+
+
+
+ 
+  get1Video(el);
+ 
+ 
+
+ 
+ 
+ 
+}
+
+var helpp;
+var song1;
+
+var helpp = new Audio('https://www.soundjay.com/buttons/sounds/beep-01a.mp3');
+
+        
+
+var song1 = new Audio('https://dl.dropboxusercontent.com/scl/fi/a6zln3m9hltlxfo0ld2x2/p_33251812_19.mp3?rlkey=48t4hcb0as4e2uhgxg1u30o1r&st=88qjdnhz&.mp3dl=0');
+ 
+
+function enhancedintruder (event) {
+document.getElementById("intru1").innerHTML = " ";
+
+
+  document.getElementById("intru2").innerHTML = " ";
+
+ helpp.loop = false;
+song1.loop = false;
+ 
+   model.detect(event.target).then(function (predictions) {
+    // Lets write the predictions to a new paragraph element and
+    // add it to the DOM.
+ 
+   
+    for (let n = 0; n < predictions.length; n++) {
+ 
+ 
+
+if ( predictions[n].class == "person") {
+
+predictions[n].class = "Intruder Detected"
+
+document.getElementById("intru1").innerHTML = "Intruder Detected";
+
+
+helpp.play();
+helpp.loop = true;
+
+
+
+
+song1.play();
+song1.loop = true;
+
+beep(1000, 2, function () {
+        
+    });
+
+
+
+
+      // Description text
+       
+      const p = document.createElement('p');
+      p.innerText = predictions[n].class  + '  '
+            + ""
+            + '';
+      // Positioned at the top left of the bounding box.
+      // Height is whatever the text takes up.
+      // Width subtracts text padding in CSS so fits perfectly.
+      p.style = 'left: ' + predictions[n].bbox[2] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[0] - 10) + 'px;';
+
+      const highlighter = document.createElement('div');
+      highlighter.setAttribute('class', 'highlighter1');
+    highlighter.style = 'left: ' + predictions[n].bbox[0] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px;' +
+          'width: ' + predictions[n].bbox[2] + 'px;' +
+          'height: ' + predictions[n].bbox[3] + 'px;';
+         p.style = 'left: ' + predictions[n].bbox[0] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[2] - 5) + 'px;';
+         
+           
+         
+setInterval(function(){
+  event.target.parentNode.removeChild(highlighter);
+ event.target.parentNode.removeChild(p);
+ 
+
+},9);
+
+     if (event.target.parentNode.appendChild(highlighter)){
+     
+    setTimeout(() => {
+     setInterval(function(){
+     
+  event.target.parentNode.removeChild(highlighter);
+  event.target.parentNode.removeChild(p);
+ 
+ 
+
+},9);
+ event.target.parentNode.appendChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+},9);  
+
+
+
+      }
+     
+     
+     
+      if (event.target.parentNode.appendChild(p)){
+      setTimeout(() => {
+ event.target.parentNode.removeChild(p);
+ 
+ 
+}, 9); }
+
+ if (event.target.parentNode.removeChild(p)){
+      setTimeout(() => {
+      document.getElementById("intru1").innerHTML = "";
+
+ event.target.parentNode.removeChild(p);
+ 
+ 
+}, 3); }
+ 
+
+
+     
+
+      event.target.parentNode.appendChild(p1);
+     event.target.parentNode.appendChild(p);
+     event.target.parentNode.appendChild(highlighter);
+     
+     
+     
+     
+
+ 
+ 
+   
+      children.push.appendChild(highlighter);
+      children.push.appendChild(p);
+    }
+    }
+   
+ 
+  window.requestAnimationFrame(enhancedintruder);
+
+  });
+}
+
+var helpp;
+var song1;
+
+var helpp = new Audio('https://www.soundjay.com/buttons/sounds/beep-01a.mp3');
+
+var song1 = new Audio('https://dl.dropboxusercontent.com/scl/fi/a6zln3m9hltlxfo0ld2x2/p_33251812_19.mp3?rlkey=48t4hcb0as4e2uhgxg1u30o1r&st=88qjdnhz&.mp3dl=0');
+
+function intruder() {
+document.getElementById("intru1").innerHTML = " ";
+
+
+  document.getElementById("intru2").innerHTML = " ";
+
+ 
+  helpp.loop = false;
+song1.loop = false;
+
+
+model.detect(video).then(function (predictions) {
+
+for (let i = 0; i < children.length; i++) {
+
+
+liveView.removeChild(children[i]);
+
+
+}
+
+children.splice(0);
+
+
+for (let n = 0; n < predictions.length; n++) {
+
+
+
+if ( predictions[n].class == "person") {
+
+
+predictions[n].class = "Intruder Detected"
+
+document.getElementById("intru1").innerHTML = "Intruder Detected";
+
+
+helpp.play();
+helpp.loop = true;
+
+
+
+
+song1.play();
+song1.loop = true;
+
+beep(1000, 2, function () {
+        
+    });
+
+
+
+
+
+
+    const p = document.createElement('p');
+        p.innerText = predictions[n].class  + '  '
+            + ""
+            + '';
+        // Draw in top left of bounding box outline.
+        p.style = 'left: ' + (predictions[n].bbox[0] + 100) + 'px;' +
+            'top: ' + predictions[n].bbox[1] + 'px;' +
+            'width: ' + + (predictions[n].bbox[2] + 230) + 'px;';
+
+        // Draw the actual bounding box.
+        const highlighter1 = document.createElement('div');
+        highlighter1.setAttribute('class', 'highlighter');
+        highlighter1.style = 'left: ' + (predictions[n].bbox[0] + 100) + 'px; top: '
+            + predictions[n].bbox[1] + 'px; width: '
+           
+            + (predictions[n].bbox[2] + 240) + 'px; height: '
+             + (predictions[n].bbox[3] + 210) + 'px;';
+           
+           
+           
+liveView.appendChild(highlighter1);
+
+liveView.appendChild(p);
+
+
+
+children.push(highlighter1);
+
+children.push(p);
+
+
+}
+
+else{
+
+}
+
+}
+
+window.requestAnimationFrame(intruder);
+
+});
+
+}
+var myInterval;
+function begin1(event){
+
+myInterval = setInterval(function () {
+
+  enhancedintruder(event)}, 6);
+ document.getElementById("demo").innerHTML = "Secondary detection activated";
+ 
+//when the button is clicked
+
+
+$('button').click(function () {
+
+  //stop the interval
+  clearInterval(myInterval);
+ 
+ 
+});
+
+}
+
+
+var video2 = document.getElementById("webcam");
+var liveView2 = document.getElementById("liveView");
+
+var el = true;
+var flipFront = document.querySelector(".flip-front");
+var aerial = document.querySelector(".aerial-front");
+var intrudor = document.querySelector(".intrudor-front");
+
+function get2Video(el){
+
+  navigator.mediaDevices.getUserMedia({
+    video: {
+
+            facingMode: el?'user':'environment'
+},
+    audio: false
+  }).then(d=>{
+ (el===false)?video2.classList.add("back"):video2.classList.remove("back");
+ document.getElementById("intru1").innerHTML = " ";
+
+
+  document.getElementById("intru2").innerHTML = " ";
+ document.getElementById("deletethislater").innerHTML= " ";
+  document.getElementById("divy5").style.top = "10000000px";
+clearInterval(myInterval);
+document.getElementById("demo").innerHTML= "Primary detection activated<br><br>Detection of aerial objects";
+    video2.srcObject = d;
+    video2.play();
+    video2.addEventListener("loadeddata", aerialobject);
+    video2.removeEventListener("loadeddata", intruder);
+     const imageContainers2 = document.getElementsByClassName('classifyOnClick');
+
+// Now let's go through all of these and add a click event listener.
+for (let i = 0; i < imageContainers2.length; i++) {
+  // Add event listener to the child element whichis the img element.
+   imageContainers2[i].children[0].removeEventListener('click', begin1);
+  imageContainers2[i].children[0].addEventListener('click', begin2);
+ 
+}
+ 
+
+ 
+ 
+ 
+ 
+ 
+    })  
+ 
+  .catch(err=>{
+  var msg = 'Either your video cam is missing OR not working properly. Please check.';
+  (err.name==='NotFoundError')?alert('Error name: '+err.name+'\nError msg: '+msg):alert('Error name: '+err.name+'\nError msg: '+err.message);
+  });
+ 
+ 
+ var stopprimary = document.querySelector('.stopprimary-front');
+
+document.querySelector('.stopprimary-front').addEventListener('click', function () {
+
+
+ document.getElementById("demo").innerHTML= " ";
+   video2.removeEventListener("loadeddata", aerialobject);
+   video2.removeEventListener("loadeddata", intruder);
+   video2.addEventListener("loadeddata", predictWebcam1);
+   video2.load();
+   video2.play();
+    });
+   
+   var startprimary = document.querySelector('.startprimary-front');
+
+document.querySelector('.startprimary-front').addEventListener('click', function () {
+
+
+document.getElementById("demo").innerHTML= "Primary detection activated<br><br>Detection of aerial objects";
+ video2.removeEventListener("loadeddata", intruder);
+ video2.removeEventListener("loadeddata", predictWebcam1);
+   video2.addEventListener("loadeddata", aerialobject);
+   
+   video2.load();
+   video2.play();
+    });
+
+   flipFront.onclick = function(){
+el=!el;
+  stop();
+  get2Video(el);
+ 
+ 
+ 
+}
+
+intrudor.onclick = function(){
+
+ 
+  get1Video(el);
+ 
+ 
+ 
+ 
+ 
+}
+
+aerial.onclick = function(){
+
+ 
+  get2Video(el);
+ 
+ 
+ 
+}
+
+stopsec.onclick = function(){
+ clearInterval(myInterval2);
+ document.getElementById("demo").innerHTML = " ";
+  get2Video(el);
+
+ 
+ 
+}
+
+
+
+
+var stop = () => video2.srcObject && video2.srcObject.getTracks().map(t => t.stop());  
+   
+}
+
+aerial.onclick = function(){
+
+
+
+ 
+  get2Video(el);
+ 
+ 
+
+ 
+ 
+ 
+}
+
+ 
+var airhelpp;
+var song1air;
+
+  var airhelpp =  new Audio('https://www.soundjay.com/buttons/sounds/beep-01a.mp3');
+
+
+var song1air = new Audio('https://dl.dropboxusercontent.com/scl/fi/dtag9d02zn53p3v74orwz/p_33251689_910.mp3?rlkey=ll5ha1damo08vwe2ixt8gt31b&st=i5bcbpq8&.mp3dl=0');
+
+function aerialobject() {
+document.getElementById("intru1").innerHTML = " ";
+
+
+  document.getElementById("intru2").innerHTML = " ";
+
+airhelpp.loop = false;
+song1air.loop = false;
+
+
+model.detect(video).then(function (predictions) {
+
+for (let i = 0; i < children.length; i++) {
+
+liveView.removeChild(children[i]);
+
+}
+
+children.splice(0);
+
+
+
+
+
+for (let n = 0; n < predictions.length; n++) {
+      // If we are over 66% sure we are sure we classified it right, draw it!
+   
+
+
+if ( predictions[n].class == "bird") {
+
+predictions[n].class = "Aerial object detected"
+document.getElementById("intru2").innerHTML = "Aerial object detected";
+
+airhelpp.play();
+airhelpp.loop = true;
+
+song1air.play();
+song1air.loop = true;
+beep(1000, 2, function () {
+        
+    });
+
+
+
+  const p = document.createElement('p');
+      p.innerText = predictions[n].class  + '  '
+            + ""
+            + '';
+      // Positioned at the top left of the bounding box.
+      // Height is whatever the text takes up.
+      // Width subtracts text padding in CSS so fits perfectly.
+      p.style = 'left: ' + (predictions[n].bbox[0] + 600) + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[0] - 10) + 'px;';
+
+      const highlighter = document.createElement('div');
+      highlighter.setAttribute('class', 'highlighter');
+    highlighter.style = 'left: ' + (predictions[n].bbox[0] + 600) + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px;' +
+          'width: ' + predictions[n].bbox[2] + 'px;' +
+          'height: ' + predictions[n].bbox[3] + 'px;';
+           
+           
+
+
+liveView.appendChild(highlighter);
+
+liveView.appendChild(p);
+
+children.push(highlighter);
+
+children.push(p);
+
+
+}
+
+else{
+
+}
+
+
+if ( predictions[n].class == "kite") {
+
+predictions[n].class = "Aerial object detected"
+document.getElementById("intru2").innerHTML = "Aerial object detected";
+
+airhelpp.play();
+airhelpp.loop = true;
+
+song1air.play();
+song1air.loop = true;
+
+beep(1000, 2, function () {
+        
+    });
+
+
+
+  const p = document.createElement('p');
+      p.innerText = predictions[n].class  + '  '
+            + ""
+            + '';
+      // Positioned at the top left of the bounding box.
+      // Height is whatever the text takes up.
+      // Width subtracts text padding in CSS so fits perfectly.
+      p.style = 'left: ' + (predictions[n].bbox[0] + 600) + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[0] - 10) + 'px;';
+
+      const highlighter = document.createElement('div');
+      highlighter.setAttribute('class', 'highlighter');
+    highlighter.style = 'left: ' + (predictions[n].bbox[0] + 600) + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px;' +
+          'width: ' + predictions[n].bbox[2] + 'px;' +
+          'height: ' + predictions[n].bbox[3] + 'px;';
+           
+
+liveView.appendChild(highlighter);
+
+liveView.appendChild(p);
+
+children.push(highlighter);
+
+children.push(p);
+
+
+}
+
+else{
+
+}
+
+
+
+
+
+
+if ( predictions[n].class == "frisbee") {
+
+predictions[n].class = "Aerial object detected"
+document.getElementById("intru2").innerHTML = "Aerial object detected";
+
+airhelpp.play();
+airhelpp.loop = true;
+
+song1air.play();
+song1air.loop = true;
+
+beep(1000, 2, function () {
+        
+    });
+
+
+
+  const p = document.createElement('p');
+      p.innerText = predictions[n].class  + '  '
+            + ""
+            + '';
+      // Positioned at the top left of the bounding box.
+      // Height is whatever the text takes up.
+      // Width subtracts text padding in CSS so fits perfectly.
+      p.style = 'left: ' + (predictions[n].bbox[0] + 600) + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[0] - 10) + 'px;';
+
+      const highlighter = document.createElement('div');
+      highlighter.setAttribute('class', 'highlighter');
+    highlighter.style = 'left: ' + (predictions[n].bbox[0] + 600) + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px;' +
+          'width: ' + predictions[n].bbox[2] + 'px;' +
+          'height: ' + predictions[n].bbox[3] + 'px;';
+           
+           
+
+
+liveView.appendChild(highlighter);
+
+liveView.appendChild(p);
+
+children.push(highlighter);
+
+children.push(p);
+
+
+}
+
+else{
+
+}
+
+if ( predictions[n].class == "kite") {
+
+predictions[n].class = "Aerial object detected"
+document.getElementById("intru2").innerHTML = "Aerial object detected";
+
+airhelpp.play();
+airhelpp.loop = true;
+
+song1air.play();
+song1air.loop = true;
+
+beep(1000, 2, function () {
+        
+    });
+
+   const p = document.createElement('p');
+      p.innerText = predictions[n].class  + '  '
+            + ""
+            + '';
+      // Positioned at the top left of the bounding box.
+      // Height is whatever the text takes up.
+      // Width subtracts text padding in CSS so fits perfectly.
+      p.style = 'left: ' + (predictions[n].bbox[0] + 600) + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[0] - 10) + 'px;';
+
+      const highlighter = document.createElement('div');
+      highlighter.setAttribute('class', 'highlighter');
+    highlighter.style = 'left: ' + (predictions[n].bbox[0] + 600) + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px;' +
+          'width: ' + predictions[n].bbox[2] + 'px;' +
+          'height: ' + predictions[n].bbox[3] + 'px;';
+           
+           
+
+
+liveView.appendChild(highlighter);
+
+liveView.appendChild(p);
+
+children.push(highlighter);
+
+children.push(p);
+
+
+}
+
+else{
+
+}
+
+
+if ( predictions[n].class == "traffic light") {
+
+predictions[n].class = "Aerial object detected"
+document.getElementById("intru2").innerHTML = "Aerial object detected";
+
+airhelpp.play();
+airhelpp.loop = true;
+
+song1air.play();
+song1air.loop = true;
+
+beep(1000, 2, function () {
+        
+    });
+
+   const p = document.createElement('p');
+      p.innerText = predictions[n].class  + '  '
+            + ""
+            + '';
+      // Positioned at the top left of the bounding box.
+      // Height is whatever the text takes up.
+      // Width subtracts text padding in CSS so fits perfectly.
+      p.style = 'left: ' + (predictions[n].bbox[0] + 600) + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[0] - 10) + 'px;';
+
+      const highlighter = document.createElement('div');
+      highlighter.setAttribute('class', 'highlighter');
+    highlighter.style = 'left: ' + (predictions[n].bbox[0] + 600) + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px;' +
+          'width: ' + predictions[n].bbox[2] + 'px;' +
+          'height: ' + predictions[n].bbox[3] + 'px;';
+           
+           
+
+
+liveView.appendChild(highlighter);
+
+liveView.appendChild(p);
+
+children.push(highlighter);
+
+children.push(p);
+
+
+}
+
+else{
+
+}
+
+if ( predictions[n].class == "airplane") {
+
+predictions[n].class = "Aerial object detected"
+document.getElementById("intru2").innerHTML = "Aerial object detected";
+
+airhelpp.play();
+airhelpp.loop = true;
+
+song1air.play();
+song1air.loop = true;
+
+
+beep(1000, 2, function () {
+        
+    });
+
+
+
+
+    const p = document.createElement('p');
+      p.innerText = predictions[n].class  + '  '
+            + ""
+            + '';
+      // Positioned at the top left of the bounding box.
+      // Height is whatever the text takes up.
+      // Width subtracts text padding in CSS so fits perfectly.
+      p.style = 'left: ' + (predictions[n].bbox[0] + 600) + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[0] - 10) + 'px;';
+
+      const highlighter = document.createElement('div');
+      highlighter.setAttribute('class', 'highlighter');
+    highlighter.style = 'left: ' + (predictions[n].bbox[0] + 600) + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px;' +
+          'width: ' + predictions[n].bbox[2] + 'px;' +
+          'height: ' + predictions[n].bbox[3] + 'px;';
+        
+           
+           
+
+
+liveView.appendChild(highlighter);
+
+liveView.appendChild(p);
+
+children.push(highlighter);
+
+children.push(p);
+
+
+}
+
+else{
+
+}
+
+}
+
+window.requestAnimationFrame(aerialobject);
+
+});
+
+}
+
+var airhelpp;
+var song1air;
+
+  var airhelpp =  new Audio('https://www.soundjay.com/buttons/sounds/beep-01a.mp3');
+
+var song1air = new Audio('https://dl.dropboxusercontent.com/scl/fi/dtag9d02zn53p3v74orwz/p_33251689_910.mp3?rlkey=ll5ha1damo08vwe2ixt8gt31b&st=i5bcbpq8&.mp3dl=0');
+
+   
+   
+  function enhancedaerial (event){
+  document.getElementById("intru1").innerHTML = " ";
+
+
+  document.getElementById("intru2").innerHTML = " ";
+ airhelpp.loop = false;
+song1air.loop = false;
+ 
+  model.detect(event.target).then(function (predictions) {
+    // Lets write the predictions to a new paragraph element and
+    // add it to the DOM.
+   
+ 
+    for (let n = 0; n < predictions.length; n++) {
+     
+     
+     if ( predictions[n].class == "kite") {
+
+predictions[n].class = "Aerial object detected"
+document.getElementById("intru2").innerHTML = "Aerial object detected";
+
+airhelpp.play();
+airhelpp.loop = true;
+
+song1air.play();
+song1air.loop = true;
+
+         beep(1000, 2, function () {
+        
+    });
+
+ const p = document.createElement('p');
+     p.innerText = predictions[n].class  + '  '
+            + ""
+            + '';
+      // Positioned at the top left of the bounding box.
+      // Height is whatever the text takes up.
+      // Width subtracts text padding in CSS so fits perfectly.
+      p.style = 'left: ' + predictions[n].bbox[2] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[0] - 10) + 'px;';
+
+      const highlighter = document.createElement('div');
+      highlighter.setAttribute('class', 'highlighter1');
+    highlighter.style = 'left: ' + predictions[n].bbox[0] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px;' +
+          'width: ' + predictions[n].bbox[2] + 'px;' +
+          'height: ' + predictions[n].bbox[3] + 'px;';
+         p.style = 'left: ' + predictions[n].bbox[0] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[2] - 5) + 'px;';
+
+        
+         
+         
+         
+setInterval(function(){
+  event.target.parentNode.removeChild(highlighter);
+ event.target.parentNode.removeChild(p);
+ 
+
+},9);
+
+     if (event.target.parentNode.appendChild(highlighter)){
+     
+    setTimeout(() => {
+     setInterval(function(){
+     
+  event.target.parentNode.removeChild(highlighter);
+  event.target.parentNode.removeChild(p);
+ 
+ 
+
+},9);
+ event.target.parentNode.appendChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+},9);  
+
+
+
+      }
+     
+     
+     
+      if (event.target.parentNode.appendChild(p)){
+      setTimeout(() => {
+ event.target.parentNode.removeChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+ 
+}, 9); }
+
+ if (event.target.parentNode.removeChild(p)){
+      setTimeout(() => {
+      document.getElementById("intru1").innerHTML = "";
+
+ event.target.parentNode.removeChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+ 
+}, 3); }
+ 
+
+
+     
+
+      event.target.parentNode.appendChild(p1);
+     event.target.parentNode.appendChild(p);
+     event.target.parentNode.appendChild(highlighter);
+     
+     
+     
+     
+
+ 
+   
+      children.push.appendChild(highlighter);
+      children.push.appendChild(p);
+    }
+   
+    if ( predictions[n].class == "frisbee") {
+
+predictions[n].class = "Aerial object detected"
+document.getElementById("intru2").innerHTML = "Aerial object detected";
+
+airhelpp.play();
+airhelpp.loop = true;
+
+song1air.play();
+song1air.loop = true;
+
+beep(1000, 2, function () {
+        
+    });
+ const p = document.createElement('p');
+      p.innerText = predictions[n].class  + '  '
+            + ""
+            + '';
+      // Positioned at the top left of the bounding box.
+      // Height is whatever the text takes up.
+      // Width subtracts text padding in CSS so fits perfectly.
+      p.style = 'left: ' + predictions[n].bbox[2] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[0] - 10) + 'px;';
+
+      const highlighter = document.createElement('div');
+      highlighter.setAttribute('class', 'highlighter1');
+    highlighter.style = 'left: ' + predictions[n].bbox[0] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px;' +
+          'width: ' + predictions[n].bbox[2] + 'px;' +
+          'height: ' + predictions[n].bbox[3] + 'px;';
+         p.style = 'left: ' + predictions[n].bbox[0] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[2] - 5) + 'px;';
+         
+         
+setInterval(function(){
+  event.target.parentNode.removeChild(highlighter);
+ event.target.parentNode.removeChild(p);
+ 
+
+},9);
+
+     if (event.target.parentNode.appendChild(highlighter)){
+     
+    setTimeout(() => {
+     setInterval(function(){
+     
+  event.target.parentNode.removeChild(highlighter);
+  event.target.parentNode.removeChild(p);
+ 
+ 
+
+},9);
+ event.target.parentNode.appendChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+},9);  
+
+
+
+      }
+     
+     
+     
+      if (event.target.parentNode.appendChild(p)){
+      setTimeout(() => {
+ event.target.parentNode.removeChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+ 
+}, 9); }
+
+ if (event.target.parentNode.removeChild(p)){
+      setTimeout(() => {
+      document.getElementById("intru1").innerHTML = "";
+
+ event.target.parentNode.removeChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+ 
+}, 3); }
+ 
+
+
+     
+
+      event.target.parentNode.appendChild(p1);
+     event.target.parentNode.appendChild(p);
+     event.target.parentNode.appendChild(highlighter);
+     
+     
+     
+     
+
+ 
+   
+      children.push.appendChild(highlighter);
+      children.push.appendChild(p);
+    }
+   
+   
+     if ( predictions[n].class == "airplane") {
+
+predictions[n].class = "Aerial object detected"
+document.getElementById("intru2").innerHTML = "Aerial object detected";
+
+airhelpp.play();
+airhelpp.loop = true;
+
+song1air.play();
+song1air.loop = true;
+
+         beep(1000, 2, function () {
+        
+    });
+
+ const p = document.createElement('p');
+     p.innerText = predictions[n].class  + '  '
+            + ""
+            + '';
+      // Positioned at the top left of the bounding box.
+      // Height is whatever the text takes up.
+      // Width subtracts text padding in CSS so fits perfectly.
+      p.style = 'left: ' + predictions[n].bbox[2] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[0] - 10) + 'px;';
+
+      const highlighter = document.createElement('div');
+      highlighter.setAttribute('class', 'highlighter1');
+    highlighter.style = 'left: ' + predictions[n].bbox[0] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px;' +
+          'width: ' + predictions[n].bbox[2] + 'px;' +
+          'height: ' + predictions[n].bbox[3] + 'px;';
+         p.style = 'left: ' + predictions[n].bbox[0] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[2] - 5) + 'px;';
+         
+         
+         
+setInterval(function(){
+  event.target.parentNode.removeChild(highlighter);
+ event.target.parentNode.removeChild(p);
+ 
+
+},9);
+
+     if (event.target.parentNode.appendChild(highlighter)){
+     
+    setTimeout(() => {
+     setInterval(function(){
+     
+  event.target.parentNode.removeChild(highlighter);
+  event.target.parentNode.removeChild(p);
+ 
+ 
+
+},9);
+ event.target.parentNode.appendChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+},9);  
+
+
+
+      }
+     
+     
+     
+      if (event.target.parentNode.appendChild(p)){
+      setTimeout(() => {
+ event.target.parentNode.removeChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+ 
+}, 9); }
+
+ if (event.target.parentNode.removeChild(p)){
+      setTimeout(() => {
+      document.getElementById("intru1").innerHTML = "";
+
+ event.target.parentNode.removeChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+ 
+}, 3); }
+ 
+
+
+     
+
+      event.target.parentNode.appendChild(p1);
+     event.target.parentNode.appendChild(p);
+     event.target.parentNode.appendChild(highlighter);
+     
+     
+     
+     
+
+
+ 
+   
+      children.push.appendChild(highlighter);
+      children.push.appendChild(p);
+    }
+
+             if ( predictions[n].class == "traffic light") {
+
+predictions[n].class = "Aerial object detected"
+document.getElementById("intru2").innerHTML = "Aerial object detected";
+
+airhelpp.play();
+airhelpp.loop = true;
+
+song1air.play();
+song1air.loop = true;
+
+         beep(1000, 2, function () {
+        
+    });
+
+ const p = document.createElement('p');
+     p.innerText = predictions[n].class  + '  '
+            + ""
+            + '';
+      // Positioned at the top left of the bounding box.
+      // Height is whatever the text takes up.
+      // Width subtracts text padding in CSS so fits perfectly.
+      p.style = 'left: ' + predictions[n].bbox[2] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[0] - 10) + 'px;';
+
+      const highlighter = document.createElement('div');
+      highlighter.setAttribute('class', 'highlighter1');
+    highlighter.style = 'left: ' + predictions[n].bbox[0] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px;' +
+          'width: ' + predictions[n].bbox[2] + 'px;' +
+          'height: ' + predictions[n].bbox[3] + 'px;';
+         p.style = 'left: ' + predictions[n].bbox[0] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[2] - 5) + 'px;';
+         
+         
+         
+setInterval(function(){
+  event.target.parentNode.removeChild(highlighter);
+ event.target.parentNode.removeChild(p);
+ 
+
+},9);
+
+     if (event.target.parentNode.appendChild(highlighter)){
+     
+    setTimeout(() => {
+     setInterval(function(){
+     
+  event.target.parentNode.removeChild(highlighter);
+  event.target.parentNode.removeChild(p);
+ 
+ 
+
+},9);
+ event.target.parentNode.appendChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+},9);  
+
+
+
+      }
+     
+     
+     
+      if (event.target.parentNode.appendChild(p)){
+      setTimeout(() => {
+ event.target.parentNode.removeChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+ 
+}, 9); }
+
+ if (event.target.parentNode.removeChild(p)){
+      setTimeout(() => {
+      document.getElementById("intru1").innerHTML = "";
+
+ event.target.parentNode.removeChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+ 
+}, 3); }
+ 
+
+
+     
+
+      event.target.parentNode.appendChild(p1);
+     event.target.parentNode.appendChild(p);
+     event.target.parentNode.appendChild(highlighter);
+     
+     
+     
+     
+
+
+ 
+   
+      children.push.appendChild(highlighter);
+      children.push.appendChild(p);
+    }
+   
+   
+    if ( predictions[n].class == "kite") {
+
+predictions[n].class = "Aerial object detected"
+document.getElementById("intru2").innerHTML = "Aerial object detected";
+
+airhelpp.play();
+airhelpp.loop = true;
+
+song1air.play();
+song1air.loop = true;
+beep(1000, 2, function () {
+        
+    });
+ const p = document.createElement('p');
+      p.innerText = predictions[n].class  + '  '
+            + ""
+            + '';
+      // Positioned at the top left of the bounding box.
+      // Height is whatever the text takes up.
+      // Width subtracts text padding in CSS so fits perfectly.
+      p.style = 'left: ' + predictions[n].bbox[2] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[0] - 10) + 'px;';
+
+      const highlighter = document.createElement('div');
+      highlighter.setAttribute('class', 'highlighter1');
+    highlighter.style = 'left: ' + predictions[n].bbox[0] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px;' +
+          'width: ' + predictions[n].bbox[2] + 'px;' +
+          'height: ' + predictions[n].bbox[3] + 'px;';
+         p.style = 'left: ' + predictions[n].bbox[0] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[2] - 5) + 'px;';
+         
+         
+         
+setInterval(function(){
+  event.target.parentNode.removeChild(highlighter);
+ event.target.parentNode.removeChild(p);
+ 
+
+},9);
+
+     if (event.target.parentNode.appendChild(highlighter)){
+     
+    setTimeout(() => {
+     setInterval(function(){
+     
+  event.target.parentNode.removeChild(highlighter);
+  event.target.parentNode.removeChild(p);
+ 
+ 
+
+},9);
+ event.target.parentNode.appendChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+},9);  
+
+
+
+      }
+     
+     
+     
+      if (event.target.parentNode.appendChild(p)){
+      setTimeout(() => {
+ event.target.parentNode.removeChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+ 
+}, 9); }
+
+ if (event.target.parentNode.removeChild(p)){
+      setTimeout(() => {
+      document.getElementById("intru1").innerHTML = "";
+
+ event.target.parentNode.removeChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+ 
+}, 3); }
+ 
+
+
+     
+
+      event.target.parentNode.appendChild(p1);
+     event.target.parentNode.appendChild(p);
+     event.target.parentNode.appendChild(highlighter);
+     
+     
+     
+     
+
+ 
+      children.push.appendChild(highlighter);
+      children.push.appendChild(p);
+    }
+   
+ if ( predictions[n].class == "bird") {
+
+predictions[n].class = "Aerial object detected"
+document.getElementById("intru2").innerHTML = "Aerial object detected";
+
+airhelpp.play();
+airhelpp.loop = true;
+
+song1air.play();
+song1air.loop = true;
+beep(1000, 2, function () {
+        
+    });
+
+ const p = document.createElement('p');
+     p.innerText = predictions[n].class  + '  '
+            + ""
+            + '';
+      // Positioned at the top left of the bounding box.
+      // Height is whatever the text takes up.
+      // Width subtracts text padding in CSS so fits perfectly.
+      p.style = 'left: ' + predictions[n].bbox[2] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[0] - 10) + 'px;';
+
+      const highlighter = document.createElement('div');
+      highlighter.setAttribute('class', 'highlighter1');
+    highlighter.style = 'left: ' + predictions[n].bbox[0] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px;' +
+          'width: ' + predictions[n].bbox[2] + 'px;' +
+          'height: ' + predictions[n].bbox[3] + 'px;';
+         p.style = 'left: ' + predictions[n].bbox[0] + 'px;' +
+          'top: ' + predictions[n].bbox[1] + 'px; ' +
+          'width: ' + (predictions[n].bbox[2] - 5) + 'px;';
+         
+           
+         
+setInterval(function(){
+  event.target.parentNode.removeChild(highlighter);
+ event.target.parentNode.removeChild(p);
+ 
+
+},9);
+
+     if (event.target.parentNode.appendChild(highlighter)){
+     
+    setTimeout(() => {
+     setInterval(function(){
+     
+  event.target.parentNode.removeChild(highlighter);
+  event.target.parentNode.removeChild(p);
+ 
+ 
+
+},9);
+ event.target.parentNode.appendChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+},9);  
+
+
+
+      }
+     
+     
+     
+      if (event.target.parentNode.appendChild(p)){
+      setTimeout(() => {
+ event.target.parentNode.removeChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+ 
+}, 9); }
+
+ if (event.target.parentNode.removeChild(p)){
+      setTimeout(() => {
+      document.getElementById("intru1").innerHTML = "";
+
+ event.target.parentNode.removeChild(p);
+  imageContainers[i].addEventListener('load', handleClick);
+ 
+}, 3); }
+ 
+
+
+     
+
+      event.target.parentNode.appendChild(p1);
+     event.target.parentNode.appendChild(p);
+     event.target.parentNode.appendChild(highlighter);
+     
+     
+     
+     
+
+
+ 
+   
+      children.push.appendChild(highlighter);
+      children.push.appendChild(p);
+    }
+    }
+   
+   
+   
+   
+       
+   
+   
+  window.requestAnimationFrame(enhancedaerial);
+
+  });
+ 
+ 
+ 
+}
+
+var myInterval2;
+
+function begin2(event){
+
+myInterval2 = setInterval(function () {
+
+  enhancedaerial(event)}, 6);
+ document.getElementById("demo").innerHTML = "Secondary detection activated";
+ 
+//when the button is clicked
+
+
+$('#message').click(function () {
+
+  //stop the interval
+  clearInterval(myInterval2);
+ 
+ 
+});
+
+}
+ 
+ function predictWebcam1() {
+
+  document.getElementById("intru1").innerHTML = " ";
+
+  // Now let's start classifying the stream.
+  model.detect(video).then(function (predictions) {
+
+ 
+ 
+
+ 
+    // Remove any highlighting we did previous frame.
+    for (let i = 0; i < children.length; i++) {
+   
+   liveView.removeChild(children[i]);
+    }
+    children.splice(0);
+   
+    // Now lets loop through predictions and draw them to the live view if
+    // they have a high confidence score.
+   
+   
+
+           
+            liveView.appendChild(highlighter);
+            liveView.appendChild(p);
+
+       
+       
+        // Store drawn objects in memory so we can delete them next time around.
+        children.push(highlighter);
+        children.push(p);
+       
+     
+   
+    // Call this function again to keep predicting when the browser is ready.
+     
+    window.requestAnimationFrame(predictWebcam1);
+  });
+}
+ 
+
+
+    </script>
+     <div class='video-canvas-container'  >
+ <iframe id="myIframe"  width="200" height="100" style=" position: absolute; top:10; right:0;" allow=" microphone" ></iframe>
+  <canvas id="mecanvas"  width="200" height="100" style="position: absolute; top:10; right:0;"></canvas>
+</div>
+
+
+
+
+<script>
+    
+    
+    const iframeElement = document.getElementById('mecanvas');
+     const iframeElement1 = document.getElementById('myIframe');
+    const iframe = document.getElementById("myIframe");
+     
+function openWebsiteInIframe(url) {
+   
+  const iframe = document.getElementById("myIframe");
+    
+    document.getElementById('myIframe').style.display = "unset"
+    
+  document.getElementById("demodrone").innerHTML = "Acoustic Sensors Activated"; 
+    
+    // Get the iframe element
+  iframe.src = url; // Set the source of the iframe to the URL
+}
+    function startmic2(){
+
+    }
+
+    
+  
+        
+          
+       
+      
+       
+    
+    </script>
+
+  </body>
+</html>
