@@ -150,7 +150,7 @@ async function setupModel(URL, predictionCB) {
   const modelParameters = {
     invokeCallbackOnNoiseAndUnknown: true, // run even when only background noise is detected
     includeSpectrogram: true, // give us access to numerical audio data
-    overlapFactor: 0.1 // how often per second to sample audio, 0.5 means twice per second
+    overlapFactor: 0.5 // how often per second to sample audio, 0.5 means twice per second
   };
 
   model.listen(
