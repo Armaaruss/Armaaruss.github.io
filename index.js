@@ -83,7 +83,7 @@ function startmic() {
   introSection.style.display = "none";
   setupModel(URL, data => {
     let maximum = Math.max(...data);
-    if (maximum > 0.95) {
+    if (maximum > 0.9) {
        
       switch (maximum) {
               
@@ -150,7 +150,7 @@ async function setupModel(URL, predictionCB) {
   const modelParameters = {
     invokeCallbackOnNoiseAndUnknown: true, // run even when only background noise is detected
     includeSpectrogram: true, // give us access to numerical audio data
-    overlapFactor: 0.33 // how often per second to sample audio, 0.5 means twice per second
+    overlapFactor: 0.25 // how often per second to sample audio, 0.5 means twice per second
   };
 
   model.listen(
