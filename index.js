@@ -91,6 +91,7 @@ function startmic() {
           currentPrediction = spanishMode ? labelsSpa[0] : labels[0];
               song1air.loop = false;
           song1air.pause();
+          song1air.currentTime = 0;
           break;
         case data[1]:
           currentPrediction = spanishMode ? labelsSpa[1] : labels[1];
