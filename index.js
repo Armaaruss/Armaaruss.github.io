@@ -83,15 +83,14 @@ function startmic() {
   introSection.style.display = "none";
   setupModel(URL, data => {
     let maximum = Math.max(...data);
-    if (maximum > 0.98) {
+    if (maximum > 0.9) {
        
       switch (maximum) {
               
         case data[0]:
           currentPrediction = spanishMode ? labelsSpa[0] : labels[0];
               song1air.loop = false;
-          song1air.pause();
-          song1air.currentTime = 0;
+         
           break;
         case data[1]:
           currentPrediction = spanishMode ? labelsSpa[1] : labels[1];
