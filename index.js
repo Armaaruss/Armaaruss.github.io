@@ -83,7 +83,7 @@ function startmic() {
   introSection.style.display = "none";
   setupModel(URL, data => {
     let maximum = Math.max(...data);
-    if (maximum > 1) {
+    if (maximum > 0.95) {
        
       switch (maximum) {
               
